@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOV.UK - Sign In</title>
+    <style>
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "GDS Transport", arial, sans-serif;
+            line-height: 1.5;
+            color: #0b0c0c;
+            background: #fff;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Utility header */
+        .utility-header {
+            background: #f3f2f1;
+            border-bottom: 1px solid #b1b4b6;
+            padding: 10px 0;
+        }
+
+        .utility-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Color filter styles */
+        .color-filter {
+            position: relative;
+            display: inline-block;
+        }
+
+        .color-filter-btn {
+            background: #1d70b8;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 200px;
+        }
+
+        .color-filter-btn::after {
+            content: "";
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 6px solid white;
+            margin-left: auto;
+        }
+
+        .color-filter-menu {
+            position: absolute;
+            background: white;
+            border: 2px solid #1d70b8;
+            padding: 10px;
+            z-index: 100;
+            display: none;
+            width: 100%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .color-filter-menu.active {
+            display: block;
+        }
+
+        .color-option {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #b1b4b6;
+        }
+
+        .color-option:last-child {
+            border-bottom: none;
+        }
+
+        .color-option:hover {
+            background: #f3f2f1;
+        }
+
+        .color-option strong {
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .color-option span {
+            font-size: 14px;
+            color: #505a5f;
+        }
+
+        /* Language selector */
+        .language-select {
+            padding: 8px;
+            border: 2px solid #1d70b8;
+            font-size: 16px;
+            min-width: 150px;
+        }
+
+        /* Main header */
+        .gov-header {
+            background: #0b0c0c;
+            padding: 15px 0;
+        }
+
+        .logo {
+            color: white;
+            font-weight: bold;
+            font-size: 30px;
+            text-decoration: none;
+        }
+
+        .phase-banner {
+            background: #1d70b8;
+            color: white;
+            padding: 5px 0;
+            font-size: 14px;
+        }
+
+        /* Login form */
+        .login-section {
+            margin: 40px auto;
+            max-width: 500px;
+        }
+
+        .login-box {
+            border: 5px solid #1d70b8;
+            padding: 30px;
+            background: #f3f2f1;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #0b0c0c;
+            font-size: 16px;
+        }
+
+        .button {
+            background: #00703c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+        }
+
+        .button:hover {
+            background: #005a30;
+        }
+
+        /* Color blind modes */
+        .deuteranopia {
+            filter: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='deuteranopia'%3E%3CfeColorMatrix type='matrix' values='0.625 0.375 0 0 0 0.7 0.3 0 0 0 0 0.3 0.7 0 0 0 0 0 1 0'/%3E%3C/filter%3E%3C/svg%3E#deuteranopia");
+        }
+
+        .protanopia {
+            filter: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='protanopia'%3E%3CfeColorMatrix type='matrix' values='0.567 0.433 0 0 0 0.558 0.442 0 0 0 0 0.242 0.758 0 0 0 0 0 1 0'/%3E%3C/filter%3E%3C/svg%3E#protanopia");
+        }
+
+        .tritanopia {
+            filter: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='tritanopia'%3E%3CfeColorMatrix type='matrix' values='0.95 0.05 0 0 0 0 0.433 0.567 0 0 0 0 0.475 0.525 0 0 0 0 1 0'/%3E%3C/filter%3E%3C/svg%3E#tritanopia");
+        }
+    </style>
+</head>
+<body>
+    <!-- Utility Header -->
+    <div class="utility-header">
+        <div class="container utility-container">
+            <div class="color-filter">
+                <button class="color-filter-btn" id="colorFilterBtn">
+                    Accessibility: Color Filters
+                </button>
+                <div class="color-filter-menu" id="colorFilterMenu">
+                    <div class="color-option" data-filter="none">
+                        <strong>Normal Vision</strong>
+                        <span>Default color settings</span>
+                    </div>
+                    <div class="color-option" data-filter="deuteranopia">
+                        <strong>Deuteranopia</strong>
+                        <span>Red-green color blindness</span>
+                    </div>
+                    <div class="color-option" data-filter="protanopia">
+                        <strong>Protanopia</strong>
+                        <span>Red-green color blindness (red weak)</span>
+                    </div>
+                    <div class="color-option" data-filter="tritanopia">
+                        <strong>Tritanopia</strong>
+                        <span>Blue-yellow color blindness</span>
+                    </div>
+                </div>
+            </div>
+            <select class="language-select" id="languageSelect">
+                <option value="en">English</option>
+                <option value="es">Español</option>
+                <option value="fr">Français</option>
+                <option value="hi">हिंदी</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="gov-header">
+        <div class="container">
+            <a href="#" class="logo">GOV.UK</a>
+        </div>
+    </header>
+    <div class="phase-banner">
+        <div class="container">
+            BETA This is a new service – your feedback will help us improve it.
+        </div>
+    </div>
+
+    <!-- Login Section -->
+    <div class="login-section container">
+        <div class="login-box">
+            <h1>Sign in to GOV.UK</h1>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" id="email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-control" required>
+                </div>
+                <button type="submit" class="button">Sign in</button>
+            </form>
+            <p class="form-group">
+                <a href="#" id="showRegister">Create an account</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Color filter functionality
+        const colorFilterBtn = document.getElementById('colorFilterBtn');
+        const colorFilterMenu = document.getElementById('colorFilterMenu');
+        const colorOptions = document.querySelectorAll('.color-option');
+
+        colorFilterBtn.addEventListener('click', function() {
+            colorFilterMenu.classList.toggle('active');
+        });
+
+        colorOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const filter = this.dataset.filter;
+                document.body.className = filter;
+                colorFilterMenu.classList.remove('active');
+            });
+        });
+
+        // Login form handling
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // In a real application, you would validate credentials here
+            window.location.href = 'search.html';
+        });
+
+        // Language selector
+        document.getElementById('languageSelect').addEventListener('change', function() {
+            // In a real application, you would handle language changes here
+            console.log('Language changed to:', this.value);
+        });
+    </script>
+</body>
+</html>

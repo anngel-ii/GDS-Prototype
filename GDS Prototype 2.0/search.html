@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOV.UK - Search</title>
+    <style>
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "GDS Transport", Arial, sans-serif;
+            line-height: 1.5;
+            color: #0b0c0c;
+            background: #fff;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .utility-header {
+            background: #f3f2f1;
+            border-bottom: 1px solid #b1b4b6;
+            padding: 10px 0;
+        }
+
+        .utility-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .language-select,
+        .color-filter-btn {
+            padding: 8px;
+            border: 2px solid #1d70b8;
+            font-size: 16px;
+            cursor: pointer;
+            background: white;
+        }
+
+        .color-filter-menu {
+            display: none;
+            position: absolute;
+            background: white;
+            border: 2px solid #1d70b8;
+            z-index: 10;
+            width: 200px;
+        }
+
+        .color-filter-menu.active {
+            display: block;
+        }
+
+        .color-option {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .color-option:hover {
+            background: #f3f2f1;
+        }
+
+        .gov-header {
+            background: #0b0c0c;
+            padding: 15px 0;
+        }
+
+        .logo {
+            color: white;
+            font-weight: bold;
+            font-size: 30px;
+            text-decoration: none;
+        }
+
+        .search-section {
+            margin: 30px 0;
+            background: #f3f2f1;
+            padding: 20px;
+            border: 1px solid #b1b4b6;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #0b0c0c;
+            font-size: 19px;
+        }
+
+        .search-filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .filter-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .search-results {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .search-results li {
+            margin-bottom: 10px;
+        }
+
+        .search-results a {
+            text-decoration: none;
+            color: #1d70b8;
+        }
+
+        .search-results a:hover {
+            text-decoration: underline;
+        }
+
+        body.deuteranopia {
+            background: #f5f5dc;
+            color: #0b0c0c;
+        }
+
+        body.protanopia {
+            background: #ffebcd;
+            color: #0b0c0c;
+        }
+
+        body.tritanopia {
+            background: #e6e6fa;
+            color: #0b0c0c;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const colorFilterBtn = document.querySelector(".color-filter-btn");
+            const colorFilterMenu = document.querySelector(".color-filter-menu");
+            const colorOptions = document.querySelectorAll(".color-option");
+
+            colorFilterBtn.addEventListener("click", () => {
+                colorFilterMenu.classList.toggle("active");
+            });
+
+            colorOptions.forEach(option => {
+                option.addEventListener("click", (e) => {
+                    document.body.className = e.target.dataset.color;
+                    colorFilterMenu.classList.remove("active");
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <header class="utility-header">
+        <div class="container utility-container">
+            <select class="language-select">
+                <option value="en">English</option>
+                <option value="cy">Spanish</option>
+                <option value="ga">French</option>
+            </select>
+            <div class="color-filter">
+                <button class="color-filter-btn">Color Settings</button>
+                <div class="color-filter-menu">
+                    <div class="color-option" data-color="">Normal Vision</div>
+                    <div class="color-option" data-color="deuteranopia">Deuteranopia</div>
+                    <div class="color-option" data-color="protanopia">Protanopia</div>
+                    <div class="color-option" data-color="tritanopia">Tritanopia</div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <header class="gov-header">
+        <div class="container">
+            <a href="#" class="logo">GOV.UK</a>
+        </div>
+    </header>
+    <main class="container">
+        <section class="search-section">
+            <h1>Search</h1>
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="Search for documents, services, or topics">
+            </div>
+            <div class="search-filters">
+                <div class="filter-item">
+                    <label for="person-type">Type of Person Searching</label>
+                    <select id="person-type">
+                        <option value="general">General Public</option>
+                        <option value="employee">Employee</option>
+                        <option value="employer">Employer</option>
+                        <option value="medical">Medical Professional</option>
+                    </select>
+                </div>
+            </div>
+            <ul class="search-results">
+                <li><a href="#">Job Application Forms</a></li>
+                <li><a href="#">Tax Declaration Documents</a></li>
+                <li><a href="#">Medical Licensing Information</a></li>
+                <li><a href="#">Employment Rights Guides</a></li>
+                <li><a href="#">Pension Contribution Details</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>
