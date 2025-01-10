@@ -42,4 +42,4 @@ The prototype aims to:
 - Add a fully functional color-blind mode toggle.
 - Implement advanced search filters.
 - Integrate backend support for user accounts and personalized settings.
--Alllwos users to 'Save documents'
+-Allows users to 'Save documents'
