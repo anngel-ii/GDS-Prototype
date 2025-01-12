@@ -27,7 +27,6 @@ The prototype aims to:
   - **Categories**: Job Applications, Health & Safety, and more.
   - **User Type**: Filters for Students, Employees, Employers, or General Public.
   - **Keywords**: Advanced search by specific terms or phrases.
-  - **Urgency and Date Range**: To refine search results.
 
 
 ## Usage
